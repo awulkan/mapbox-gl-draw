@@ -17,15 +17,23 @@ module.exports = function(parent, startVertex, endVertex, map) {
   const ptB = map.project([ endCoord[0], endCoord[1] ]);
   const mid = map.unproject([ (ptA.x + ptB.x) / 2, (ptA.y + ptB.y) / 2 ]);
 
+  const properties = {
+    meta: Constants.meta.MIDPOINT,
+    parent: parent.properties.id,
+    lng: mid.lng,
+    lat: mid.lat,
+    coord_path: endVertex.properties.coord_path
+  };
+
+  Object.keys(parent.properties).forEach((key) => {
+    if (key.indexOf('user_') === 0) {
+      properties[key] = parent.properties[key];
+    }
+  });
+
   return {
     type: Constants.geojsonTypes.FEATURE,
-    properties: {
-      meta: Constants.meta.MIDPOINT,
-      parent: parent,
-      lng: mid.lng,
-      lat: mid.lat,
-      coord_path: endVertex.properties.coord_path
-    },
+    properties,
     geometry: {
       type: Constants.geojsonTypes.POINT,
       coordinates: [mid.lng, mid.lat]
