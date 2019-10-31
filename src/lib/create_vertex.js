@@ -21,11 +21,13 @@ module.exports = function(parent, coordinates, path, selected) {
     active: (selected) ? Constants.activeStates.ACTIVE : Constants.activeStates.INACTIVE
   };
 
-  Object.keys(parent.properties).forEach((key) => {
-    if (key.indexOf('user_') === 0) {
-      properties[key] = parent.properties[key];
-    }
-  });
+  if (parent.properties) {
+    Object.keys(parent.properties).forEach((key) => {
+      if (key.indexOf('user_') === 0) {
+        properties[key] = parent.properties[key];
+      }
+    });
+  }
 
   return {
     type: Constants.geojsonTypes.FEATURE,

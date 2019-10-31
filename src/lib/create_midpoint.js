@@ -25,11 +25,13 @@ module.exports = function(parent, startVertex, endVertex, map) {
     coord_path: endVertex.properties.coord_path
   };
 
-  Object.keys(parent.properties).forEach((key) => {
-    if (key.indexOf('user_') === 0) {
-      properties[key] = parent.properties[key];
-    }
-  });
+  if (parent.properties) {
+    Object.keys(parent.properties).forEach((key) => {
+      if (key.indexOf('user_') === 0) {
+        properties[key] = parent.properties[key];
+      }
+    });
+  }
 
   return {
     type: Constants.geojsonTypes.FEATURE,
